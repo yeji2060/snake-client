@@ -14,13 +14,7 @@ const connect = function () {
     console.log("Successfully connected to game server");
     conn.write("Name: YJH");
 
-    //   conn.write("Move: up");    
-    // setTimeout(() => {
-    //   conn.write("Move: down");
-    // }, 3000);
-    // conn.write("Move: down");
-    // conn.write("Move: down");
-    // conn.write("Move: left");
+    //conn.write("Move: up");    
   })
 
   conn.on("data", (data) => {
@@ -30,8 +24,27 @@ const connect = function () {
   return conn;
 };
 
+const setupInput = function () {
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.setEncoding("utf8");
+  stdin.resume();
+  stdin.on("data", handleUserInput => {
+    stdin.on('data', (key) => {
+      if(key === '\u0003') {
+        process.exit();
+      }
+    })
+  })
+  return stdin;
+};
+
+
 console.log("Connecting ...");
 connect();
+setupInput();
 
 
 module.exports = connect;
+
+

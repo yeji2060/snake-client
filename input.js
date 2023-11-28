@@ -1,3 +1,5 @@
+const { KEYMAP } = require('./constants');
+
 let connection;
 
 const setupInput = (conn) => {
@@ -13,20 +15,14 @@ const setupInput = (conn) => {
 };
 
 const handleUserInput = function (key) {
-    if(key === '\u0003') {
-      process.exit();
-    } else {
-      const keyMap = {
-        'w': 'Move: up',
-        'a': 'Move: left',
-        's': 'Move: down',
-        'd': 'Move: right'
-      }
-      if (keyMap.hasOwnProperty(key)) {
-        const movementCommand = keyMap[key];
-        connection.write(movementCommand);
+  if (key === '\u0003') {
+    process.exit();
+  } else {
+    if (KEYMAP.hasOwnProperty(key)) {
+      const movementCommand = KEYMAP[key];
+      connection.write(movementCommand);
     }
-}
+  } 
 }
 
 
